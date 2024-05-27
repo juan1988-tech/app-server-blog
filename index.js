@@ -1,6 +1,7 @@
 /*conexion a la base de datos*/
 const { connection } = require('./database/connection');
 const cors = require('cors');
+const articleroutes = require('./routerpages/article')
 
 connection()
 
@@ -26,5 +27,8 @@ app.get("/probando",(req,res)=>{
         nombre: 'Juan David Franco',
         edad: '35 annos'
     })
-
 })
+
+/*probando rutas con el controlador*/ 
+
+app.use('/api',articleroutes)

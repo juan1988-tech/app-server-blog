@@ -12,7 +12,10 @@ const express = require('express');
 const app = express();
 
 app.use(cors())
-
+app.use(express.json())
+app.use(express.urlencoded({
+    extended:true
+}))
 const port = 3000;
 
 app.listen(port,()=>{
@@ -32,3 +35,4 @@ app.get("/probando",(req,res)=>{
 /*probando rutas con el controlador*/ 
 
 app.use('/api',articleroutes)
+

@@ -1,1 +1,3 @@
-console.log('hello world');
+const { connection } = require('./database/connection')
+
+connection()

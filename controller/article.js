@@ -124,10 +124,51 @@ const borrar = (req,res) =>{
    })
 }
 
+const editar = (req,res) =>{
+    let articulo_id = req.params.id;
+
+    //requerir los datos del body
+    let parametros = req.body;
+
+    try{
+        let validar_titulo = !validator.isEmpty(parametros.titulo) && validator.isLength(parametros.titulo,{min:5,max:undefined})
+        let validar_contenido = !validator.isEmpty(parametros.contenido)
+        if(!validar_titulo || !validar_contenido){
+            throw new Error('no se ha validado la información')
+        }
+    }
+    catch(error){
+        return res.status(400).json({
+            status:"error",
+            mensaje:"faltan datos por enviar"
+        })
+    }
+
+    //Buscar y actualizar el artículo
+    Articulo
+    .findOneAndUpdate({_id: articulo_id},parametros,{new: true})
+    .then((articulo_actualizado)=>{
+        if(!articulo_actualizado){
+            return res.status(500).json({
+                status: "error",
+                mensaje: "error al actualizar"
+            })
+        }
+
+        return res.status(200).json({
+            status:"success",
+            articulo: articulo_actualizado,
+            mensaje: "artículo actualizado exitosamente"
+        })
+
+    })
+}
+
 module.exports ={
     test,
     create,
     listArticles,
     un_articulo,
-    borrar
+    borrar,
+    editar
 }

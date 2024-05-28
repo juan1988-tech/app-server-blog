@@ -7,5 +7,6 @@ router.post('/crear',articleController.create)
 router.get('/lista-de-articulos/:ultimos?',articleController.listArticles)
 router.get('/articulo/:id',articleController.un_articulo)
 router.delete('/articulo/:id',articleController.borrar)
+router.put('/articulo/:id',articleController.editar)
 
-module.exports = router
+module.exports = router 

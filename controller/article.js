@@ -99,10 +99,29 @@ const un_articulo = (req,res) =>{
         .catch((error)=>{
             console.log(error)
         })
-       
-    //Si no existe devolver error
+}
 
-    //caso contrario: devolver resultado
+const borrar = (req,res) =>{
+   let articulo_id = req.params.id;
+   
+   Articulo
+   .findOneAndDelete({ _id: articulo_id })
+   .then((articulo_borrado)=>{
+
+    if(!articulo_borrado){
+        return res.status(404).json({
+            status: "failed",
+            articulo: articulo_borrado,
+            mensaje: "no existe el articulo a borrar"
+           })
+    }
+
+    return res.status(200).json({
+        status: "success",
+        articulo: articulo_borrado,
+        mensaje: "artículo borrado exitosamente"
+       })
+   })
 }
 
 module.exports ={
@@ -110,4 +129,5 @@ module.exports ={
     create,
     listArticles,
     un_articulo,
+    borrar
 }

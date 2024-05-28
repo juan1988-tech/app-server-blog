@@ -48,7 +48,30 @@ const create = (req,res) =>{
         })
 }
 
+const listArticles = (req,res) =>{
+   let consulta = Articulo.find({}).exec()
+    .then((listado_articulos)=>{
+        if(!listado_articulos){
+            return res.status(400).json({
+                status:"error",
+                mensaje:"No hay artículos"
+            })
+        }
+
+        return res.status(200).json({
+            status: "success",
+            articulo: listado_articulos,
+            mensaje: "Lista de articulos"
+        })
+
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+}
+
 module.exports ={
     test,
-    create
+    create,
+    listArticles
 }

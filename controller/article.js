@@ -77,8 +77,37 @@ const listArticles = (req,res) =>{
     })
 }
 
+const un_articulo = (req,res) =>{
+    //recoger un id por la url
+    let id = req.params.id;
+    //buscar un artículo con el método
+    Articulo.findById(id).exec()
+        .then((articulo)=>{
+            if(!articulo){
+                return res.status(400).json({
+                    status:"error",
+                    mensaje:"Artículo perdido a enviar"
+                })
+            }
+
+            return res.status(200).json({
+                status:"success",
+                mensaje: `${id}`,
+                articulo
+            })
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+       
+    //Si no existe devolver error
+
+    //caso contrario: devolver resultado
+}
+
 module.exports ={
     test,
     create,
-    listArticles
+    listArticles,
+    un_articulo,
 }

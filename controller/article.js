@@ -1,5 +1,5 @@
-const validator = require('validator');
 const Articulo = require('../models/article');
+const { validar_articulo } = require('../helper/validator')
 
 const test = (req,res) =>{
     return res.status(200).json({
@@ -11,11 +11,7 @@ const create = (req,res) =>{
     let parametros = req.body;
     //validar los datos
     try{
-        let validar_titulo = !validator.isEmpty(parametros.titulo) && validator.isLength(parametros.titulo,{min:5,max:undefined})
-        let validar_contenido = !validator.isEmpty(parametros.contenido)
-        if(!validar_titulo || !validar_contenido){
-            throw new Error('no se ha validado la información')
-        }
+        validar_articulo(parametros)
     }
     catch(error){
         return res.status(400).json({
@@ -129,13 +125,8 @@ const editar = (req,res) =>{
 
     //requerir los datos del body
     let parametros = req.body;
-
     try{
-        let validar_titulo = !validator.isEmpty(parametros.titulo) && validator.isLength(parametros.titulo,{min:5,max:undefined})
-        let validar_contenido = !validator.isEmpty(parametros.contenido)
-        if(!validar_titulo || !validar_contenido){
-            throw new Error('no se ha validado la información')
-        }
+        validar_articulo(parametros)
     }
     catch(error){
         return res.status(400).json({
@@ -144,6 +135,7 @@ const editar = (req,res) =>{
         })
     }
 
+    
     //Buscar y actualizar el artículo
     Articulo
     .findOneAndUpdate({_id: articulo_id},parametros,{new: true})
@@ -163,6 +155,8 @@ const editar = (req,res) =>{
 
     })
 }
+
+
 
 module.exports ={
     test,

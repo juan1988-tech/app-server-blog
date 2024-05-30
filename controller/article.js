@@ -1,5 +1,6 @@
 const Articulo = require('../models/article');
 const { validar_articulo } = require('../helper/validator')
+const fs = require('node:fs');
 
 const test = (req,res) =>{
     return res.status(200).json({
@@ -156,6 +157,39 @@ const editar = (req,res) =>{
     })
 }
 
+const subir_archivos = (req,res) =>{
+
+    let archivo = req.file.originalname;
+
+    let archivo_split = archivo.split("\.")
+
+    let extention = archivo_split[1].toLowerCase();
+    
+
+    if(!req.file){
+       console.log('no hay archivo enviado')
+    }
+
+
+    if(extention !="jpg" && extention !="png" && extention !="jpeg" && extention !="gif"){
+           console.log(extention);
+            fs.unlink(req.file.path,(error)=>{
+              return res.status(404).json({
+                status:"error",
+                mensaje:"no es un archivo de imagen"
+              })
+            })
+    }
+    else{
+        return res.status(200).json({
+            status:"success",
+            mensaje: "artículo subido exitosamente",
+            file: req.file,
+            extention
+        })
+    } 
+}
+
 
 
 module.exports ={
@@ -164,5 +198,6 @@ module.exports ={
     listArticles,
     un_articulo,
     borrar,
-    editar
+    editar,
+    subir_archivos
 }

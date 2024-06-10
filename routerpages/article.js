@@ -22,6 +22,6 @@ router.delete('/articulo/:id',articleController.borrar)
 router.put('/articulo/:id',articleController.editar)
 router.post('/subir-imagen/:id',[subir_archivos.single('file')],articleController.subir_archivos)
 router.get('/imagen/:fichero',articleController.imagen)
+router.get('/buscar/:busqueda',articleController.buscador)
 
-//
 module.exports = router 
